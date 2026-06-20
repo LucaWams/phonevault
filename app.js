@@ -145,12 +145,15 @@ function getMonthSeconds(sessions) {
 function isNightSession(session) {
   const start = new Date(session.startedAt);
   const end = new Date(session.endedAt);
-  const startHour = start.getHours();
-  const endHour = end.getHours();
-  const wentInAtNight = startHour >= 20 || startHour < 6;
-  const cameOutMorningOrLater = endHour >= 5;
-  return wentInAtNight && cameOutMorningOrLater;
-}
+
+  const startedBeforeMidnight = start.getHours() >= 20;
+  const endedNextDay =
+    end.getFullYear() !== start.getFullYear() ||
+    end.getMonth() !== start.getMonth() ||
+    end.getDate() !== start.getDate();
+
+  return startedBeforeMidnight && endedNextDay;
+
 
 function getDayStats(sessions, year, month, day) {
   const start = new Date(year, month, day);
