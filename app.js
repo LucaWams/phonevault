@@ -329,7 +329,6 @@ function renderHistory() {
   const sessions = getSessions();
   const totalSeconds = getTotalSeconds(sessions);
   const recordSession = getRecordSession(sessions);
-  const nightStreak = getNightStreak(sessions);
   const longestNightStreak = getLongestNightStreak(sessions);
 
   screen.innerHTML = `
@@ -339,7 +338,7 @@ function renderHistory() {
           <h1 class="section-title">Session History</h1>
           <p class="section-subtitle">${sessions.length} sessions • ${formatDurationShort(totalSeconds)} total</p>
         </div>
-        ${sessions.length ? `<button class="clear-button" id="clear-history" aria-label="Clear history">🗑️</button>` : ""}
+      ${sessions.length ? `<button class="clear-button" id="clear-history" aria-label="Clear history">Clear</button>` : ""}
       </div>
 
       <div class="quick-stats">
@@ -450,13 +449,7 @@ function renderCalendar() {
         </div>
       </div>
 
-      <div class="streak-card">
-        <div class="streak-icon">🔥</div>
-        <div>
-          <div class="streak-label">Night Vault Streak</div>
-          <div class="streak-value">${nightStreak} night${nightStreak === 1 ? "" : "s"}</div>
-        </div>
-      </div>
+    
 
       <div class="month-nav">
         <button class="month-button" id="prev-month" aria-label="Previous month">‹</button>
