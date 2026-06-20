@@ -429,14 +429,13 @@ function renderCalendar() {
       displayMonth.year === now.getFullYear();
 
     cells.push(`
-      <div class="calendar-day ${isToday ? "today" : ""}">
-        <div>
-          <div class="day-number">${day}</div>
-          ${stats.totalSeconds > 0 ? `<div class="day-time">${formatCalendarDuration(stats.totalSeconds)}</div>` : ""}
-        </div>
-        ${stats.hasNightSession ? `<div class="night-dot">🌙</div>` : ""}
-      </div>
-    `);
+  <div class="calendar-day ${isToday ? "today" : ""}">
+    <div>
+      <div class="day-number">${day}</div>
+      ${stats.totalSeconds > 0 ? `<div class="day-time">${formatCalendarDuration(stats.totalSeconds)}</div>` : ""}
+    </div>
+  </div>
+`);
   }
 
   
