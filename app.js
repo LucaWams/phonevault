@@ -193,6 +193,43 @@ function getNightStreak(sessions) {
   return streak;
 }
 
+function getLongestNightStreak(sessions) {
+  if (!sessions.length) return 0;
+
+  const nightDates = new Set();
+
+  sessions.forEach(session => {
+    if (isNightSession(session)) {
+      const start = new Date(session.startedAt);
+      const key = `${start.getFullYear()}-${pad(start.getMonth() + 1)}-${pad(start.getDate())}`;
+      nightDates.add(key);
+    }
+  });
+
+  const sortedDates = Array.from(nightDates)
+    .map(key => new Date(key + "T00:00:00"))
+    .sort((a, b) => a - b);
+
+  let longest = 0;
+  let current = 0;
+  let previous = null;
+
+  sortedDates.forEach(date => {
+    if (!previous) {
+      current = 1;
+    } else {
+      const diffDays = Math.round((date - previous) / (1000 * 60 * 60 * 24));
+      current = diffDays === 1 ? current + 1 : 1;
+    }
+
+    longest = Math.max(longest, current);
+    previous = date;
+  });
+
+  return longest;
+}
+
+
 function updateTabs() {
   tabButtons.forEach(button => {
     button.classList.toggle("active", button.dataset.tab === activeTab);
@@ -292,6 +329,8 @@ function renderHistory() {
   const sessions = getSessions();
   const totalSeconds = getTotalSeconds(sessions);
   const recordSession = getRecordSession(sessions);
+  const nightStreak = getNightStreak(sessions);
+  const longestNightStreak = getLongestNightStreak(sessions);
 
   screen.innerHTML = `
     <section>
@@ -318,7 +357,7 @@ function renderHistory() {
               <div class="card-value">${formatDuration(totalSeconds)}</div>
             </div>
 
-            ${
+                        ${
               recordSession
                 ? `
                   <div class="record-card">
@@ -330,7 +369,14 @@ function renderHistory() {
                 : ""
             }
 
+            <div class="record-card">
+              <div class="card-label">🌙 Night Vault Streak</div>
+              <div class="card-value">${nightStreak} night${nightStreak === 1 ? "" : "s"}</div>
+              <div class="card-date">Longest streak: ${longestNightStreak} night${longestNightStreak === 1 ? "" : "s"}</div>
+            </div>
+
             <div class="sessions-list">
+            
               ${sessions.map(session => `
                 <article class="session-card">
                   <div class="session-left">
