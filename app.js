@@ -207,7 +207,6 @@ function render() {
 }
 
 function renderVault() {
-  const sessions = getSessions();
   const activeStart = getActiveStart();
   const isActive = Boolean(activeStart);
   const elapsed = isActive
@@ -249,31 +248,6 @@ function renderVault() {
             : `<button class="big-button phone-in" id="phone-in">🔒<br>PHONE IN</button>`
         }
       </div>
-
-      <div class="stats-row">
-        <div class="stat-card">
-          <span class="stat-icon">🕘</span>
-          <div class="stat-value">${sessions.length}</div>
-          <div class="stat-label">Sessions</div>
-        </div>
-        <div class="stat-card">
-          <span class="stat-icon">⏱️</span>
-          <div class="stat-value">${formatDurationShort(getTotalSeconds(sessions))}</div>
-          <div class="stat-label">Total Time</div>
-        </div>
-      </div>
-
-      <div class="quick-stats">
-        <div class="quick-card"><span>Today</span><span>${formatDurationShort(getTodaySeconds(sessions))}</span></div>
-        <div class="quick-card"><span>This week</span><span>${formatDurationShort(getWeekSeconds(sessions))}</span></div>
-        <div class="quick-card"><span>This month</span><span>${formatDurationShort(getMonthSeconds(sessions))}</span></div>
-      </div>
-
-      ${
-        isActive
-          ? `<div class="info-card">Session is running. You can lock your iPhone. When you open the app again, it calculates the elapsed time from the saved start time.</div>`
-          : ""
-      }
     </section>
   `;
 
@@ -313,6 +287,7 @@ function renderVault() {
   }
 }
 
+
 function renderHistory() {
   const sessions = getSessions();
   const totalSeconds = getTotalSeconds(sessions);
@@ -320,12 +295,10 @@ function renderHistory() {
 
   screen.innerHTML = `
     <section>
-      <div class="section-header">
-        <div>
-          <h1 class="section-title">Session History</h1>
-          <p class="section-subtitle">${sessions.length} sessions • ${formatDurationShort(totalSeconds)} total</p>
-        </div>
-        ${sessions.length ? `<button class="clear-button" id="clear-history" aria-label="Clear history">🗑️</button>` : ""}
+     <div class="quick-stats">
+        <div class="quick-card"><span>Today</span><span>${formatDurationShort(getTodaySeconds(sessions))}</span></div>
+        <div class="quick-card"><span>This week</span><span>${formatDurationShort(getWeekSeconds(sessions))}</span></div>
+        <div class="quick-card"><span>This month</span><span>${formatDurationShort(getMonthSeconds(sessions))}</span></div>
       </div>
 
       ${
