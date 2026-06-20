@@ -1,4 +1,4 @@
-const CACHE_NAME = "phone-vault-cache-v10";
+const CACHE_NAME = "phone-vault-cache-v2";
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
