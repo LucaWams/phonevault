@@ -334,10 +334,35 @@ function renderHistory() {
 
   screen.innerHTML = `
     <section>
-     <div class="quick-stats">
+      <div class="section-header">
+        <div>
+          <h1 class="section-title">Session History</h1>
+          <p class="section-subtitle">${sessions.length} sessions • ${formatDurationShort(totalSeconds)} total</p>
+        </div>
+        ${sessions.length ? `<button class="clear-button" id="clear-history" aria-label="Clear history">🗑️</button>` : ""}
+      </div>
+
+      <div class="quick-stats">
         <div class="quick-card"><span>Today</span><span>${formatDurationShort(getTodaySeconds(sessions))}</span></div>
         <div class="quick-card"><span>This week</span><span>${formatDurationShort(getWeekSeconds(sessions))}</span></div>
         <div class="quick-card"><span>This month</span><span>${formatDurationShort(getMonthSeconds(sessions))}</span></div>
+      </div>
+
+      <div class="total-card">
+        <div class="card-label">🏆 Total Vault Time</div>
+        <div class="card-value">${formatDuration(totalSeconds)}</div>
+      </div>
+
+      <div class="record-card">
+        <div class="card-label">⭐ Record Vault Time</div>
+        <div class="card-value">${recordSession ? formatDuration(recordSession.durationSeconds) : "00:00:00"}</div>
+        <div class="card-date">${recordSession ? formatDate(recordSession.startedAt) : "No record yet"}</div>
+      </div>
+
+      <div class="record-card">
+        <div class="card-label">🌙 Night Vault Streak</div>
+        <div class="card-value">${nightStreak} night${nightStreak === 1 ? "" : "s"}</div>
+        <div class="card-date">Longest streak: ${longestNightStreak} night${longestNightStreak === 1 ? "" : "s"}</div>
       </div>
 
       ${
@@ -352,31 +377,7 @@ function renderHistory() {
             </div>
           `
           : `
-            <div class="total-card">
-              <div class="card-label">🏆 Total Vault Time</div>
-              <div class="card-value">${formatDuration(totalSeconds)}</div>
-            </div>
-
-                        ${
-              recordSession
-                ? `
-                  <div class="record-card">
-                    <div class="card-label">⭐ Record Vault Time</div>
-                    <div class="card-value">${formatDuration(recordSession.durationSeconds)}</div>
-                    <div class="card-date">${formatDate(recordSession.startedAt)}</div>
-                  </div>
-                `
-                : ""
-            }
-
-            <div class="record-card">
-              <div class="card-label">🌙 Night Vault Streak</div>
-              <div class="card-value">${nightStreak} night${nightStreak === 1 ? "" : "s"}</div>
-              <div class="card-date">Longest streak: ${longestNightStreak} night${longestNightStreak === 1 ? "" : "s"}</div>
-            </div>
-
             <div class="sessions-list">
-            
               ${sessions.map(session => `
                 <article class="session-card">
                   <div class="session-left">
