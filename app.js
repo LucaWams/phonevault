@@ -329,6 +329,7 @@ function renderHistory() {
   const sessions = getSessions();
   const totalSeconds = getTotalSeconds(sessions);
   const recordSession = getRecordSession(sessions);
+  const nightStreak = getNightStreak(sessions);
   const longestNightStreak = getLongestNightStreak(sessions);
 
   screen.innerHTML = `
@@ -438,7 +439,7 @@ function renderCalendar() {
     `);
   }
 
-  const nightStreak = getNightStreak(sessions);
+  
 
   screen.innerHTML = `
     <section>
