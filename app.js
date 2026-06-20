@@ -147,13 +147,14 @@ function isNightSession(session) {
   const end = new Date(session.endedAt);
 
   const startedBeforeMidnight = start.getHours() >= 20;
+
   const endedNextDay =
     end.getFullYear() !== start.getFullYear() ||
     end.getMonth() !== start.getMonth() ||
     end.getDate() !== start.getDate();
 
   return startedBeforeMidnight && endedNextDay;
-
+}
 
 function getDayStats(sessions, year, month, day) {
   const start = new Date(year, month, day);
