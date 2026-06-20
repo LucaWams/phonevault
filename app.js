@@ -339,7 +339,7 @@ function renderHistory() {
           <h1 class="section-title">Session History</h1>
           <p class="section-subtitle">${sessions.length} sessions • ${formatDurationShort(totalSeconds)} total</p>
         </div>
-      ${sessions.length ? `<button class="clear-button" id="clear-history" aria-label="Clear history">Clear</button>` : ""}
+      ${sessions.length ? `<button class="clear-button" id="clear-history" aria-label="Clear history">🗑️</button>` : ""}
       </div>
 
       <div class="quick-stats">
