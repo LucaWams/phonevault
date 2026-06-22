@@ -477,13 +477,14 @@ function renderCalendar() {
       <button class="today-button" id="today-button">Today</button>
 
       <div class="weekdays">
-        ${["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-          .map(d => `<div class="weekday">${d}</div>`)
-          .join("")}
+      ${["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+        .map(d => `<div class="weekday">${d}</div>`)
+        .join("")}
+    </div>
 
-      <div class="calendar-grid">
-        ${cells.join("")}
-      </div>
+    <div class="calendar-grid">
+      ${cells.join("")}
+    </div>
     </section>
   `;
 
