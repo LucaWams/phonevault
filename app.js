@@ -417,7 +417,7 @@ function renderCalendar() {
   const sessions = getSessions();
   const now = new Date();
 
-  const firstDay = new Date(displayMonth.year, displayMonth.month, 1).getDay();
+  const firstDay = (new Date(displayMonth.year, displayMonth.month, 1).getDay() + 6) % 7;
   const daysInMonth = new Date(displayMonth.year, displayMonth.month + 1, 0).getDate();
   const monthName = new Date(displayMonth.year, displayMonth.month, 1).toLocaleDateString(undefined, {
     month: "long",
@@ -477,8 +477,9 @@ function renderCalendar() {
       <button class="today-button" id="today-button">Today</button>
 
       <div class="weekdays">
-        ${["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(d => `<div class="weekday">${d}</div>`).join("")}
-      </div>
+        ${["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+          .map(d => `<div class="weekday">${d}</div>`)
+          .join("")}
 
       <div class="calendar-grid">
         ${cells.join("")}
