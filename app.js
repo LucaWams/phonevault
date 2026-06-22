@@ -146,14 +146,14 @@ function isNightSession(session) {
   const start = new Date(session.startedAt);
   const end = new Date(session.endedAt);
 
-  const startedBeforeMidnight = start.getHours() >= 20;
-
-  const endedNextDay =
+  const endedOnLaterDate =
     end.getFullYear() !== start.getFullYear() ||
     end.getMonth() !== start.getMonth() ||
     end.getDate() !== start.getDate();
 
-  return startedBeforeMidnight && endedNextDay;
+  const endedAfter5AM = end.getHours() >= 5;
+
+  return endedOnLaterDate && endedAfter5AM;
 }
 
 function getDayStats(sessions, year, month, day) {
@@ -173,20 +173,26 @@ function getDayStats(sessions, year, month, day) {
 }
 
 function getNightStreak(sessions) {
+  const nightDates = new Set();
+
+  sessions.forEach(session => {
+    if (isNightSession(session)) {
+      const start = new Date(session.startedAt);
+      const key = `${start.getFullYear()}-${pad(start.getMonth() + 1)}-${pad(start.getDate())}`;
+      nightDates.add(key);
+    }
+  });
+
   let streak = 0;
-  const check = dayStart(new Date());
+  const check = new Date();
   check.setDate(check.getDate() - 1);
 
   while (true) {
-    const stats = getDayStats(
-      sessions,
-      check.getFullYear(),
-      check.getMonth(),
-      check.getDate()
-    );
+    const key = `${check.getFullYear()}-${pad(check.getMonth() + 1)}-${pad(check.getDate())}`;
 
-    if (!stats.hasNightSession) break;
-    streak += 1;
+    if (!nightDates.has(key)) break;
+
+    streak++;
     check.setDate(check.getDate() - 1);
   }
 
@@ -423,22 +429,33 @@ function renderCalendar() {
 
   for (let day = 1; day <= daysInMonth; day++) {
     const stats = getDayStats(sessions, displayMonth.year, displayMonth.month, day);
+
+    const dateKey = `${displayMonth.year}-${pad(displayMonth.month + 1)}-${pad(day)}`;
+
+    const hasNightStart = sessions.some(session => {
+      if (!isNightSession(session)) return false;
+
+      const start = new Date(session.startedAt);
+      const sessionKey = `${start.getFullYear()}-${pad(start.getMonth() + 1)}-${pad(start.getDate())}`;
+
+      return sessionKey === dateKey;
+    });
+
     const isToday =
       day === now.getDate() &&
       displayMonth.month === now.getMonth() &&
       displayMonth.year === now.getFullYear();
 
     cells.push(`
-  <div class="calendar-day ${isToday ? "today" : ""}">
-    <div>
-      <div class="day-number">${day}</div>
-      ${stats.totalSeconds > 0 ? `<div class="day-time">${formatCalendarDuration(stats.totalSeconds)}</div>` : ""}
-    </div>
-  </div>
-`);
+      <div class="calendar-day ${isToday ? "today" : ""}">
+        ${hasNightStart ? `<div class="night-dot">🌙</div>` : ""}
+        <div>
+          <div class="day-number">${day}</div>
+          ${stats.totalSeconds > 0 ? `<div class="day-time">${formatCalendarDuration(stats.totalSeconds)}</div>` : ""}
+        </div>
+      </div>
+    `);
   }
-
-  
 
   screen.innerHTML = `
     <section>
