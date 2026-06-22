@@ -342,7 +342,7 @@ function renderHistory() {
     <section>
       <div class="section-header">
         <div>
-          <h1 class="section-title">Session History</h1>
+          <h1 class="section-title">Vault History</h1>
           <p class="section-subtitle">${sessions.length} sessions • ${formatDurationShort(totalSeconds)} total</p>
         </div>
       ${sessions.length ? `<button class="clear-button" id="clear-history" aria-label="Clear history">🗑️</button>` : ""}
@@ -355,14 +355,14 @@ function renderHistory() {
       </div>
 
       <div class="total-card">
-        <div class="card-label">🏆 Total Vault Time</div>
+        <div class="card-label">⭐ Total Vault Time</div>
         <div class="card-value">${formatDuration(totalSeconds)}</div>
       </div>
 
       <div class="record-card">
-        <div class="card-label">⭐ Record Vault Time</div>
+        <div class="card-label">🏆 Record Vault Time</div>
         <div class="card-value">${recordSession ? formatDuration(recordSession.durationSeconds) : "00:00:00"}</div>
-        <div class="card-date">${recordSession ? formatDate(recordSession.startedAt) : "No record yet"}</div>
+        <div class="card-date">${recordSession ? formatDate(recordSession.endedAt) : "No record yet"}</div>
       </div>
 
       <div class="record-card">
