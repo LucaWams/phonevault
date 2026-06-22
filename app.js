@@ -316,16 +316,29 @@ function renderVault() {
       );
 
       const sessions = getSessions();
-      sessions.unshift({
+      const previousRecord = getRecordSession(sessions);
+      const previousRecordSeconds = previousRecord ? previousRecord.durationSeconds || 0 : 0;
+
+      const newSession = {
         id: makeId(),
         startedAt,
         endedAt,
         durationSeconds
-      });
+      };
 
+      const brokeRecord = durationSeconds > previousRecordSeconds;
+
+      sessions.unshift(newSession);
+      
       saveSessions(sessions);
       setActiveStart(null);
+      
+      if (brokeRecord) {
+        alert(`🏆 New record! You kept your phone in the vault for ${formatDuration(durationSeconds)}.`);
+      }
+      
       render();
+
     });
   }
 }
