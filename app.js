@@ -476,6 +476,7 @@ function renderCalendar() {
 
       <button class="today-button" id="today-button">Today</button>
 
+
       <div class="weekdays">
       ${["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
         .map(d => `<div class="weekday">${d}</div>`)
