@@ -460,9 +460,9 @@ function renderCalendar() {
       displayMonth.year === now.getFullYear();
 
     cells.push(`
-      <div class="calendar-day ${isToday ? "today" : ""}">
-        ${hasNightStart ? `<div class="night-dot">🌙</div>` : ""}
-        <div>
+      <div class="calendar-day ${isToday ? "today" : ""}" style="position: relative;">
+        ${hasNightStart ? `<div class="night-dot" style="z-index: 1;">🌙</div>` : ""}
+        <div style="position: relative; z-index: 2;">
           <div class="day-number">${day}</div>
           ${stats.totalSeconds > 0 ? `<div class="day-time">${formatCalendarDuration(stats.totalSeconds)}</div>` : ""}
         </div>
