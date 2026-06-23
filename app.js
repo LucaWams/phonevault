@@ -37,6 +37,7 @@ function saveSessions(sessions) {
   localStorage.setItem(STORAGE_SESSIONS, JSON.stringify(sessions));
 }
 
+
 function getActiveStart() {
   return localStorage.getItem(STORAGE_ACTIVE);
 }
